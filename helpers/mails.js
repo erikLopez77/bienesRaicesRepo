@@ -46,7 +46,7 @@ const emailOlvidemiPassword = async (datos) => {
         <p>Haz click en el siguiente enlace para generar un password nuevo:
             <a href='${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/auth/olvide-password/${token}'>Restablecer password</a>
         </p> 
-        <p>Si tu no creaste esta cuenta, puedes ignorar este mensaje</p>`
+        <p>Si tu no solicitaste este cambio, puedes ignorar este mensaje</p>`
     });
 }
 
