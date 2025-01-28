@@ -23,5 +23,10 @@ const Usuario = db.define('usuarios', {
         }
     }
 });
+//funcion para comparar contraseña del prototipo de la tabla Usuario
+//pasword es el texto plano y this.password la contraseña encriptada
+Usuario.prototype.verificarPassword= function (password){
+    return bcrypt.compareSync(password,this.password)
+}
 
 export default Usuario;

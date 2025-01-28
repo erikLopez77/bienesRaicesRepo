@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import Usuario from '../models/usuario.js';
-import { generarId } from '../helpers/token.js';
+import {generarJWT, generarId } from '../helpers/token.js';
 import { emailOlvidemiPassword, emailRegistro } from '../helpers/mails.js';
 
 const formularioLogin = (req, res) => {
@@ -23,7 +23,6 @@ const autenticar = async (req, res) => {
             pagina: 'Iniciar sesión',
             csrfToken: req.csrfToken(),
             errores: resultado.array(),
-
         });
     }//si existe el usuario
     const { email, password } = req.body;
@@ -42,7 +41,21 @@ const autenticar = async (req, res) => {
             errores: { Errors: { msg: 'Tu cuenta no ha sido confirmada' } }
         });
     }
-
+    //revisar password
+    if(!usuario.verificarPassword(password)){
+        return res.render('auth/login', {
+            pagina: 'Iniciar sesión',
+            csrfToken: req.csrfToken(),
+            errores: { Errors: { msg: 'El password es incorrecto' } }
+        });
+    }
+    //autenticar el usuario
+    const token=generarJWT({id:usuario.id,nombre:usuario.nombre });
+    return res.cookie('_token',token,{
+        httOnly:true, //no se puede acceder al token por alguna fuente externa
+        //secure: true, requieren certificados
+        //sameSite:true
+    })
 }
 
 const formularioRegistro = (req, res) => {
@@ -196,7 +209,6 @@ const nuevoPassword = async (req, res) => {
     }
     //identificar quien hace el cambio
     const { token } = req.params;
-    console.log(token + "ESE FUE EL TOKEN")
     const { password } = req.body;
 
     const usuario = await Usuario.findOne({ where: { token } });
