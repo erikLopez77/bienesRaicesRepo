@@ -2,6 +2,7 @@ import express from 'express';
 import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
 import routerUsuarios from './routes/usuarioRutas.js';
+import propiedadesRoutes from './routes/propiedadesRoutes.js'
 import db from './config/db.js';
 
 const app = express();
@@ -23,8 +24,10 @@ app.set('views', './views');
 
 app.use(express.static('public'));
 
-//routing 
+//routing
 app.use('/auth', routerUsuarios);//localhost:5000/auth/
+app.use('/',propiedadesRoutes);
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {

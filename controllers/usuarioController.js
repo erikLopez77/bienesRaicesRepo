@@ -55,7 +55,7 @@ const autenticar = async (req, res) => {
         httOnly:true, //no se puede acceder al token por alguna fuente externa
         //secure: true, requieren certificados
         //sameSite:true
-    })
+    }).redirect('/mis-propiedades');
 }
 
 const formularioRegistro = (req, res) => {
