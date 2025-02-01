@@ -1,10 +1,10 @@
-import{ exit } from 'node:process';
-import categorias  from "./categorias.js";
+import { exit } from 'node:process';
+import categorias from "./categorias.js";
 import Categoria from "../models/Categoria.js";
 import db from "../config/db.js";
 
-const importarDatos =async ()=>{
-    try{
+const importarDatos = async () => {
+    try {
         //autenticar
         await db.authenticate();
 
@@ -16,8 +16,12 @@ const importarDatos =async ()=>{
         console.log('Datos importados correctamente');
         exit();//==exit(0) es porque finalizo sin  errores
 
-    } catch (error){
+    } catch (error) {
         console.log(error);
         exit(1); //todo finalizo pero con un error
     }
+}
+
+if (process.argv[2] === "-i") {
+    importarDatos();
 }
