@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
-import Usuario from '../models/usuario.js';
-import {generarJWT, generarId } from '../helpers/token.js';
+import Usuario from '../models/Usuario.js';
+import { generarJWT, generarId } from '../helpers/token.js';
 import { emailOlvidemiPassword, emailRegistro } from '../helpers/mails.js';
 
 const formularioLogin = (req, res) => {
@@ -42,7 +42,7 @@ const autenticar = async (req, res) => {
         });
     }
     //revisar password
-    if(!usuario.verificarPassword(password)){
+    if (!usuario.verificarPassword(password)) {
         return res.render('auth/login', {
             pagina: 'Iniciar sesión',
             csrfToken: req.csrfToken(),
@@ -50,9 +50,9 @@ const autenticar = async (req, res) => {
         });
     }
     //autenticar el usuario
-    const token=generarJWT({id:usuario.id,nombre:usuario.nombre });
-    return res.cookie('_token',token,{
-        httOnly:true, //no se puede acceder al token por alguna fuente externa
+    const token = generarJWT({ id: usuario.id, nombre: usuario.nombre });
+    return res.cookie('_token', token, {
+        httOnly: true, //no se puede acceder al token por alguna fuente externa
         //secure: true, requieren certificados
         //sameSite:true
     }).redirect('/mis-propiedades');

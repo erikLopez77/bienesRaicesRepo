@@ -26,7 +26,7 @@ app.use(express.static('public'));
 
 //routing
 app.use('/auth', routerUsuarios);//localhost:5000/auth/
-app.use('/',propiedadesRoutes);
+app.use('/', propiedadesRoutes);
 
 const port = process.env.PORT || 3000;
 
