@@ -3,13 +3,12 @@ import { Precio, Categoria, Propiedad } from '../models/index.js';
 
 const admin = (req, res) => {
     res.render('propiedades/admin', {
-        pagina: 'Mis propiedades',
-        barra: true
+        pagina: 'Mis propiedades'
     });
 }
 //form p/ crear propiedad
 const crear = async (req, res) => {
-    //consultar modelo de precios y categorias 
+    //consultar modelo de precios y categorias
     const [categorias, precios] = await Promise.all([
         Categoria.findAll(),
         Precio.findAll()
@@ -17,33 +16,13 @@ const crear = async (req, res) => {
 
     res.render('propiedades/crear', {
         pagina: 'Crear propiedad',
-        barra: true,
         csrfToken: req.csrfToken(),
         categorias,
         precios,
         datos: {}
     });
-    //crear registro
-    const { titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precio: precioId,
-        categoria: categoriaId
-    } = req.body;
-    try {
-        const propiedadGuardada = await Propiedad.create({
-            titulo,
-            descripcion,
-            habitaciones,
-            estacionamiento,
-            wc,
-            calle,
-            lat,
-            lng,
-            precioId,
-            categoriaId
-        });
-    } catch (error) {
-        console.log(error);
-    }
 }
+
 
 const guardar = async (req, res) => {
     //validacion
@@ -55,7 +34,6 @@ const guardar = async (req, res) => {
         ])
         return res.render('propiedades/crear', {
             pagina: 'Crear propiedad',
-            barra: true,
             csrfToken: req.csrfToken(),
             categorias,
             precios,
@@ -63,10 +41,45 @@ const guardar = async (req, res) => {
             datos: req.body
         });
     }
+
+     //crear registro
+     const { titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precio: precioId,
+        categoria: categoriaId
+    } = req.body;
+
+    const {id: usuarioId}=req.usuario;
+    try {
+        const propiedadGuardada = await Propiedad.create({
+            titulo,
+            descripcion,
+            habitaciones,
+            estacionamiento,
+            wc,
+            calle,
+            lat,
+            lng,
+            precioId,
+            categoriaId,
+            usuarioId,
+            imagen:''
+        });
+        const {id}=propiedadGuardada;
+
+        res.redirect(`/propiedades/agregar-imagen/${id}`);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const agregarImagen = async (req,res)=>{
+    res.render('propiedaes/agregar-imagen',{
+        pagina:'Agregar imagen'
+    });
 }
 
 export {
     admin,
     crear,
-    guardar
+    guardar,
+    agregarImagen
 }
