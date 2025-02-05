@@ -1,7 +1,7 @@
 (function () {
-
-    const lat = 19.001634;
-    const lng = -98.2044694;
+    //en caso de que exista un valor para lat y lng, lo toma sino usa las coordenadas por default
+    const lat = document.querySelector('#lat').value || 19.001634;
+    const lng = document.querySelector('#lng').value || -98.2044694;
     const mapa = L.map('mapa').setView([lat, lng], 12);
     let marker;
 
