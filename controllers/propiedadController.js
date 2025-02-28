@@ -1,9 +1,21 @@
 import { validationResult } from 'express-validator';
 import { Precio, Categoria, Propiedad } from '../models/index.js';
+import { where } from 'sequelize';
 
-const admin = (req, res) => {
+const admin = async (req, res) => {
+    const { id } = req.usuario;
+    const propiedades = await Propiedad.findAll({
+        where: {
+            usuarioId: id
+        },
+        include: [
+            { model: Categoria, as: 'categoria' },
+            { model: Precio, as: 'precio' }
+        ]
+    })
     res.render('propiedades/admin', {
-        pagina: 'Mis propiedades'
+        pagina: 'Mis propiedades',
+        propiedades
     });
 }
 //form p/ crear propiedad
@@ -116,6 +128,7 @@ const almacenarImagen = async (req, res, next) => {
         propiedad.imagen = req.file.filename;
         propiedad.publicado = 1;
         await propiedad.save();
+        next();
         console.log('Se agrego img CTRLR');
         // Redirigir al usuario en el codigo js
     } catch (error) {
