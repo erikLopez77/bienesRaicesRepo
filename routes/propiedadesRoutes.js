@@ -1,6 +1,9 @@
 import express from "express";
 import { body } from "express-validator";
-import { admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios } from '../controllers/propiedadController.js';
+import {
+    admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar,
+    mostrarPropiedad
+} from '../controllers/propiedadController.js';
 import protegerRuta from "../middleware/protegerRuta.js";
 import upload from '../middleware/subirImagen.js';//se importa middleware
 const router = express.Router();
@@ -38,4 +41,9 @@ router.post('/propiedades/editar/:id', protegerRuta,
     body('wc').isNumeric().withMessage('Selecciona la cantidad de sanitarios '),
     body('lat').notEmpty().withMessage('Ubica la propiedad en el mapa'),
     guardarCambios);
+
+router.post("/propiedades/eliminar/:id", protegerRuta, eliminar);
+
+//area publica
+router.get('/propiedad/:id', mostrarPropiedad);
 export default router;

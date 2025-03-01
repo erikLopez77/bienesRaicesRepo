@@ -1,3 +1,4 @@
+import { unlink } from 'node:fs/promises';
 import { validationResult } from 'express-validator';
 import { Precio, Categoria, Propiedad } from '../models/index.js';
 
@@ -13,6 +14,7 @@ const admin = async (req, res) => {
         ]
     })
     res.render('propiedades/admin', {
+        csrfToken: req.csrfToken(),
         pagina: 'Mis propiedades',
         propiedades
     });
@@ -201,6 +203,39 @@ const guardarCambios = async (req, res) => {
         console.log(error);
     }
 }
+const eliminar = async (req, res) => {
+    const { id } = req.params;
+    const propiedad = await Propiedad.findByPk(id);
+    //validar existencia de propiedad
+    if (!propiedad) {
+        return res.redirect('/mis-propiedades');
+    }
+    //revisar quien visita la url
+    if (propiedad.usuarioId.toString() !== req.usuario.id.toString()) {
+        return res.redirect('/mis-propiedades');
+    }
+    //eliminar imagen
+    await unlink(`public/uploads/${propiedad.imagen}`);
+
+    //eliminar la propiedad
+    await propiedad.destroy();
+    res.redirect('/mis-propiedades');
+}
+
+const mostrarPropiedad = async (req, res) => {
+    const { id } = req.params;
+    //comprobar que exista la propiedad
+    const propiedad = await Propiedad.findByPk(id, {
+        include: [
+            { model: Precio, as: 'precio' },
+            { model: Categoria, as: 'categoria' }
+        ]
+    });
+    if (!propiedad) {
+        return res.redirect('/404');
+    }
+    res.render('propiedades/mostrar', { propiedad, pagina: propiedad.titulo });
+}
 export {
     admin,
     crear,
@@ -208,5 +243,7 @@ export {
     agregarImagen,
     almacenarImagen,
     editar,
-    guardarCambios
+    guardarCambios,
+    eliminar,
+    mostrarPropiedad
 }
