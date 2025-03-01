@@ -1,6 +1,5 @@
 import { validationResult } from 'express-validator';
 import { Precio, Categoria, Propiedad } from '../models/index.js';
-import { where } from 'sequelize';
 
 const admin = async (req, res) => {
     const { id } = req.usuario;
@@ -135,11 +134,79 @@ const almacenarImagen = async (req, res, next) => {
         console.log(error);
     }
 }
+const editar = async (req, res) => {
+    const { id } = req.params;
+    const propiedad = await Propiedad.findByPk(id);
+    //validar existencia de propiedad
+    if (!propiedad) {
+        return res.redirect('/mis-propiedades');
+    }
+    //revisar quien visita la url
+    if (propiedad.usuarioId.toString() !== req.usuario.id.toString()) {
+        return res.redirect('/mis-propiedades');
+    }
+    const [categorias, precios] = await Promise.all([
+        Categoria.findAll(),
+        Precio.findAll()
+    ]);
 
+    res.render('propiedades/editar', {
+        pagina: `Editar propiedad: ${propiedad.titulo}`,
+        csrfToken: req.csrfToken(),
+        categorias,
+        precios,
+        datos: propiedad
+    });
+
+}
+const guardarCambios = async (req, res) => {
+    //validacion
+    let resultado = validationResult(req);
+    if (!resultado.isEmpty()) {
+        const [categorias, precios] = await Promise.all([
+            Categoria.findAll(),
+            Precio.findAll()
+        ])
+        return res.render('propiedades/editar', {
+            pagina: `Editar propiedad: ${propiedad.titulo}`,
+            csrfToken: req.csrfToken(),
+            categorias,
+            precios,
+            errores: resultado.array(),
+            datos: req.body
+        });
+    }
+    const { id } = req.params;
+    const propiedad = await Propiedad.findByPk(id);
+    //validar existencia de propiedad
+    if (!propiedad) {
+        return res.redirect('/mis-propiedades');
+    }
+    //revisar quien visita la url
+    if (propiedad.usuarioId.toString() !== req.usuario.id.toString()) {
+        return res.redirect('/mis-propiedades');
+    }
+    //reescribir eel objeto
+    try {
+        const { titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precio: precioId,
+            categoria: categoriaId
+        } = req.body;
+        propiedad.set({
+            titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precioId,
+            categoriaId
+        });
+        await propiedad.save();
+        res.redirect('/mis-propiedades');
+    } catch (error) {
+        console.log(error);
+    }
+}
 export {
     admin,
     crear,
     guardar,
     agregarImagen,
-    almacenarImagen
+    almacenarImagen,
+    editar,
+    guardarCambios
 }
