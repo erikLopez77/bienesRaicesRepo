@@ -9,6 +9,8 @@
     }).addTo(mapa);
 
     //agregar el pin
-    new L.marker([lat, lng]).addTo(mapa)
+    // Encadena bindPopup() correctamente
+    L.marker([lat, lng])
         .bindPopup(calle)
+        .addTo(mapa);
 })()
