@@ -5,7 +5,7 @@ import { Precio, Categoria, Propiedad } from '../models/index.js';
 const admin = async (req, res) => {
     //leer query
     const { pagina: paginaActual } = req.query;
-    const expresion = /[0-9]$/
+    const expresion = /[1-9]$/
     if (!expresion.test(paginaActual)) {
         return res.redirect('/mis-propiedades?pagina=1');
     }
@@ -13,21 +13,27 @@ const admin = async (req, res) => {
         const { id } = req.usuario;
         const limit = 10;
         const offset = ((paginaActual * limit) - limit)
-        const propiedades = await Propiedad.findAll({
-            limit,
-            offset,
-            where: {
-                usuarioId: id
-            },
-            include: [
-                { model: Categoria, as: 'categoria' },
-                { model: Precio, as: 'precio' }
-            ]
-        })
+
+        const [propiedades, total] = await Promise.all([
+            Propiedad.findAll({
+                limit,
+                offset,
+                where: {
+                    usuarioId: id
+                },
+                include: [
+                    { model: Categoria, as: 'categoria' },
+                    { model: Precio, as: 'precio' }
+                ]
+            }), Propiedad.count({ where: { usuarioId: id } })
+        ])
         res.render('propiedades/admin', {
             csrfToken: req.csrfToken(),
             pagina: 'Mis propiedades',
-            propiedades
+            propiedades,
+            paginas: Math.ceil(total / limit),
+            paginaActual: Number(paginaActual),
+            total, limit, offset
         });
     } catch (error) {
         console.log(error);
