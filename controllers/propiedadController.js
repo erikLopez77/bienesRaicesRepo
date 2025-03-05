@@ -6,18 +6,18 @@ const admin = async (req, res) => {
     //leer query
     const { pagina: paginaActual } = req.query;
     const expresion = /[1-9]$/
-    if (!expresion.test(paginaActual)) {
+    if (!expresion.test(paginaActual)) {//asegurarnos que oaginaActual es un número del 1-9
         return res.redirect('/mis-propiedades?pagina=1');
     }
     try {
         const { id } = req.usuario;
         const limit = 10;
-        const offset = ((paginaActual * limit) - limit)
+        const offset = ((paginaActual * limit) - limit)//no. de propiedades a saltar antes de mostrar 
 
         const [propiedades, total] = await Promise.all([
             Propiedad.findAll({
                 limit,
-                offset,
+                offset,//limitan y desplazan los resultados p/paginar
                 where: {
                     usuarioId: id
                 },
@@ -38,7 +38,6 @@ const admin = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-
 }
 //form p/ crear propiedad
 const crear = async (req, res) => {
