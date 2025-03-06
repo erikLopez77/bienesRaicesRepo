@@ -9,5 +9,5 @@ router.get('/categorias/:id', categoria)
 //pagina 404
 router.get('/404', noEncontrado);
 //buscador
-router.get('/buscador', buscador);
+router.post('/buscador', buscador);
 export default router;
