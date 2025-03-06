@@ -35,8 +35,11 @@
         } catch (error) {
             console.log(error);
         }
-    }
+    }//funcion p/ poner pines en el mapa 
     const mostrarPropiedades = propiedades => {
+        //limpiar pines previos
+        markers.clearLayers();
+
         propiedades.forEach(propiedad => {
             const marker = new L.marker([propiedad?.lat, propiedad?.lng], {
                 autoPan: true
@@ -52,10 +55,11 @@
         });
     }
     const filtrarPropiedades = () => {
-        const resultado = propiedades.filter(filtrarCategoria);
-
-    }
-    const filtrarCategoria = propiedad => filtros.categoria ? propiedad.categoriaId === filtros.categoria : propiedad
-
+        //filter devuelve un nuevo arreglo a partir del arreglo dado  
+        const resultado = propiedades.filter(filtrarCategoria).filter(filtrarPrecio);
+        mostrarPropiedades(resultado);
+    }//si el elemento es verdadero se agrega al array
+    const filtrarCategoria = propiedad => filtros.categoria ? propiedad.categoriaId === filtros.categoria : propiedad;
+    const filtrarPrecio = propiedad => filtros.precio ? propiedad.precioId === filtros.precio : propiedad;
     obtenerPropiedades();
 })()

@@ -1,6 +1,18 @@
 extends ./layout/app
 block styles
     link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
+    style.
+        .leaflet-control-zoom-in,
+        .leaflet-control-zoom-out {
+            color: black !important;
+            background-color: white ;
+            border: 2px solid rgba(0, 0, 0, 0.2) ;
+        }
+
+        .leaflet-control-zoom-in:hover,
+        .leaflet-control-zoom-out:hover {
+            background-color: #f4f4f4 ;
+        }
 
 block contenido 
     div(class="py-5 ")
@@ -21,6 +33,19 @@ block contenido
                     each precio in precios
                         option(value=precio.id)= precio.nombre
         div(id="mapa-inicio" class="h-[600px] mt-5")
+
+        section(class="py-5")
+            h2(class="text-center text-4xl font-extrabold pt-10") Casas en venta
+            div(class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-14")
+                each propiedad in casas 
+                    include ./templates/card
+        section(class="py-5")
+            h2(class="text-center text-4xl font-extrabold pt-10") Departamentos en venta
+            div(class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-14")
+                each propiedad in departamentos 
+                   include ./templates/card
+
+
 
 
 block scripts
