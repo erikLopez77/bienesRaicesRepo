@@ -6,6 +6,8 @@ import {
 } from '../controllers/propiedadController.js';
 import protegerRuta from "../middleware/protegerRuta.js";
 import upload from '../middleware/subirImagen.js';//se importa middleware
+import identificarUsuario from "../middleware/identificarUsuario.js";
+
 const router = express.Router();
 
 router.get('/mis-propiedades', protegerRuta, admin);
@@ -45,5 +47,5 @@ router.post('/propiedades/editar/:id', protegerRuta,
 router.post("/propiedades/eliminar/:id", protegerRuta, eliminar);
 
 //area publica
-router.get('/propiedad/:id', mostrarPropiedad);
+router.get('/propiedad/:id', identificarUsuario, mostrarPropiedad);
 export default router;

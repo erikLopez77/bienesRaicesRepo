@@ -61,7 +61,7 @@ const buscador = async (req, res) => {
     const { termino } = req.body;
     //validar que termino no este vacío
     if (!termino.trim()) {
-        return res.redirect('back');//si estoy en buscaddor hay un probñema si no mando nada
+        return res.redirect('/');//si estoy en buscaddor hay un probñema si no mando nada
     }
     //consultar propiedades 
     const propiedades = await Propiedad.findAll({
