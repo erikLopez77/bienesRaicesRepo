@@ -5,8 +5,16 @@
         btn.addEventListener('click', cambiarEstadoPropiedad)
     })
 
-    function cambiarEstadoPropiedad(e) {
+    async function cambiarEstadoPropiedad(e) {
         const { propiedadId: id } = e.target.dataset;
+        try {
+            const url = `/propiedades/${id}`;
 
+            const respuesta = fetch(url, {
+                method: 'PUT',
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 })()

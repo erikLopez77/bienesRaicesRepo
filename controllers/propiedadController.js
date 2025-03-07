@@ -243,7 +243,10 @@ const eliminar = async (req, res) => {
     await propiedad.destroy();
     res.redirect('/mis-propiedades');
 }
+//modifica el estado de la propiedad
+const cambiarEstado = async (req, res) => {
 
+}
 const mostrarPropiedad = async (req, res) => {
     const { id } = req.params;
     //comprobar que exista la propiedad
@@ -333,6 +336,7 @@ export {
     editar,
     guardarCambios,
     eliminar,
+    cambiarEstado,
     mostrarPropiedad,
     enviarMensajes,
     verMensajes
