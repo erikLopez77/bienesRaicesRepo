@@ -11,12 +11,15 @@
         try {
             const url = `/propiedades/${id}`;
 
-            const respuesta = fetch(url, {
+            const respuesta = await fetch(url, {
                 method: 'PUT',
-                headers: {
+                headers: {// ese nombre en mayus espera el csurf en headers
                     'CSRF-Token': token
                 }
             });
+            const resultado = await respuesta.json();
+            console.log(resultado);
+
         } catch (error) {
             console.log(error);
         }

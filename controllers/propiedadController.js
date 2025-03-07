@@ -245,7 +245,23 @@ const eliminar = async (req, res) => {
 }
 //modifica el estado de la propiedad
 const cambiarEstado = async (req, res) => {
-
+    const { id } = req.params;
+    const propiedad = await Propiedad.findByPk(id);
+    //validar existencia de propiedad
+    if (!propiedad) {
+        return res.redirect('/mis-propiedades');
+    }
+    //revisar quien visita la url
+    if (propiedad.usuarioId.toString() !== req.usuario.id.toString()) {
+        return res.redirect('/mis-propiedades');
+    }
+    console.log(id, '+++')
+    //actualizar
+    propiedad.publicado = !propiedad.publicado;
+    await propiedad.save();
+    res.json({
+        resultado: 'ok'
+    })
 }
 const mostrarPropiedad = async (req, res) => {
     const { id } = req.params;
