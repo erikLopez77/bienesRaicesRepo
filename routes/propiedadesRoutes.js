@@ -2,7 +2,7 @@ import express from "express";
 import { body } from "express-validator";
 import {
     admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar,
-    mostrarPropiedad
+    mostrarPropiedad, enviarMensajes, verMensajes
 } from '../controllers/propiedadController.js';
 import protegerRuta from "../middleware/protegerRuta.js";
 import upload from '../middleware/subirImagen.js';//se importa middleware
@@ -48,4 +48,10 @@ router.post("/propiedades/eliminar/:id", protegerRuta, eliminar);
 
 //area publica
 router.get('/propiedad/:id', identificarUsuario, mostrarPropiedad);
+//almacenar mensajes 
+router.post('/propiedad/:id',
+    identificarUsuario,
+    body('mensaje').isLength({ min: 10 }).withMessage('El mensaje no puede ir vacío o es muy corto'),
+    enviarMensajes);
+router.get('/mensajes/:id', protegerRuta, verMensajes)
 export default router;
