@@ -272,7 +272,7 @@ const mostrarPropiedad = async (req, res) => {
             { model: Categoria, as: 'categoria' }
         ]
     });
-    if (!propiedad) {
+    if (!propiedad || !propiedad.publicado) {
         return res.redirect('/404');
     }
 
