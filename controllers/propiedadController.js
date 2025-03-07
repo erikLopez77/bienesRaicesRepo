@@ -1,7 +1,7 @@
-import { unlink } from 'node:fs/promises';
+import { unlink } from 'node:fs/promises';//eliminar archivos
 import { validationResult } from 'express-validator';
 import { Precio, Categoria, Propiedad, Mensaje, Usuario } from '../models/index.js';
-import { esVendedor } from '../helpers/index.js'
+import { esVendedor, formatearFecha } from '../helpers/index.js'
 
 const admin = async (req, res) => {
     //leer query
@@ -319,7 +319,8 @@ const verMensajes = async (req, res) => {
     }
     res.render("propiedades/mensajes", {
         pagina: 'Mensajes',
-        mensajes: propiedad.mensajes
+        mensajes: propiedad.mensajes,
+        formatearFecha
     });
 }
 
