@@ -2,7 +2,7 @@ import express from "express";
 import { body } from "express-validator";
 import {
     admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar,
-    cambiarEstado, mostrarPropiedad, enviarMensajes, verMensajes,
+    cambiarEstado, mostrarPropiedad, enviarMensajes, verMensajes, enVenta, categoria2, buscador2
 } from '../controllers/propiedadController.js';
 import protegerRuta from "../middleware/protegerRuta.js";
 import upload from '../middleware/subirImagen.js';//se importa middleware
@@ -55,5 +55,11 @@ router.post('/propiedad/:id',
     identificarUsuario,
     body('mensaje').isLength({ min: 10 }).withMessage('El mensaje no puede ir vacío o es muy corto'),
     enviarMensajes);
-router.get('/mensajes/:id', protegerRuta, verMensajes)
+router.get('/mensajes/:id', protegerRuta, verMensajes);
+router.get('/propiedades-venta', protegerRuta, enVenta);
+//categorias
+router.get('/propiedad/categorias/:id', protegerRuta, categoria2)
+//buscador
+router.post('/propiedad/buscar', protegerRuta,
+    buscador2);
 export default router;

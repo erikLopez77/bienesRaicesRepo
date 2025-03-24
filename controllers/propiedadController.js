@@ -1,3 +1,4 @@
+import { Sequelize, Op } from 'sequelize';
 import { unlink } from 'node:fs/promises';//eliminar archivos
 import { validationResult } from 'express-validator';
 import { Precio, Categoria, Propiedad, Mensaje, Usuario } from '../models/index.js';
@@ -264,6 +265,7 @@ const cambiarEstado = async (req, res) => {
     })
 }
 const mostrarPropiedad = async (req, res) => {
+    const autenticado = req.usuario
     const { id } = req.params;
     //comprobar que exista la propiedad
     const propiedad = await Propiedad.findByPk(id, {
@@ -281,11 +283,13 @@ const mostrarPropiedad = async (req, res) => {
         pagina: propiedad.titulo,
         csrfToken: req.csrfToken(),
         usuario: req.usuario,
+        autenticado,
         esVendedor: esVendedor(req.usuario?.id, propiedad.usuarioId)
     });
 }
 const enviarMensajes = async (req, res) => {
     const { id } = req.params;
+    const { usuario } = req;
     //comprobar que exista la propiedad
     const propiedad = await Propiedad.findByPk(id, {
         include: [
@@ -293,8 +297,12 @@ const enviarMensajes = async (req, res) => {
             { model: Categoria, as: 'categoria' }
         ]
     });
-    if (!propiedad) {
-        return res.redirect('/404');
+    //se ridirige en caso de no existir la propiedad
+    if (!propiedad && !usuario) {
+        return res.render('404');
+    }
+    if (!propiedad && usuario) {
+        return res.render('404', { admin: true });
     }
     //validacion y renderizar los errores
     let resultado = validationResult(req);
@@ -311,10 +319,10 @@ const enviarMensajes = async (req, res) => {
     //almacenar el mensaje 
     const { mensaje } = req.body;
     const { id: propiedadId } = req.params;
-    const { id: usuarioId } = req.usuario;
+    const usuarioId = usuario.id;
 
     await Mensaje.create({ mensaje, propiedadId, usuarioId })
-    res.redirect('/');
+    res.redirect('/propiedades-venta');
 }
 const verMensajes = async (req, res) => {
     const { id } = req.params;
@@ -342,7 +350,93 @@ const verMensajes = async (req, res) => {
         formatearFecha
     });
 }
+//controladores de invitado con head de usuario
+const enVenta = async (req, res) => {
+    const { usuario } = req
+    const [categorias, precios, casas, departamentos] = await Promise.all([
+        Categoria.findAll({ raw: true }),
+        Precio.findAll({ raw: true }),
+        Propiedad.findAll({
+            limit: 3,
+            where: {
+                usuarioId: { [Op.ne]: usuario.id }, // Excluye las propiedades del usuario actual
+                categoriaId: 1
+            }, include: [
+                { model: Precio, as: 'precio' }
+            ], order: [['createdAt', 'DESC']]
+        }),
+        Propiedad.findAll({
+            limit: 3,
+            where: {
+                usuarioId: { [Op.ne]: usuario.id }, // Excluye las propiedades del usuario actual
+                categoriaId: 2
+            }, include: [
+                { model: Precio, as: 'precio' }
+            ], order: [['createdAt', 'DESC']]
+        })
+    ])
+    res.render('propiedades/enVenta', {
+        pagina: 'Propiedades en venta',
+        categorias,
+        precios,
+        casas,
+        departamentos,
+        admin: true,
+        csrfToken: req.csrfToken(),
+        csrfToken2: req.csrfToken(),
+    });
+}
 
+
+const categoria2 = async (req, res) => {
+    const { usuario } = req;
+    const { id } = req.params;
+    //comprobar que la categoria exista
+    const categoria = await Categoria.findByPk(id);
+    if (!categoria) {
+        return res.render('404', { admin: true });
+    }
+    //obtener propiedades
+    const propiedades = await Propiedad.findAll({
+        where: {
+            categoriaId: id,
+            usuarioId: { [Op.ne]: usuario.id } // Excluye las propiedades del usuario actual
+        },
+        include: [
+            { model: Precio, as: 'precio' }
+        ]
+    });
+    res.render('categoria', {
+        pagina: `${categoria.nombre}s en venta`,
+        propiedades,
+        csrfToken: req.csrfToken(),
+        admin: true
+    });
+}
+
+const buscador2 = async (req, res) => {
+    const { q } = req.query;
+    const { usuario } = req;//
+    console.log(usuario, 'user+++++');
+    res.json(q);
+    /* console.log(q, 'trmn+++++')
+    //consultar propiedades si todo salio bien
+    const propiedades = await Propiedad.findAll({
+        where: {
+            usuarioId: { [Op.ne]: usuario.id },  // Excluye las propiedades del usuario actual
+            titulo: {
+                [Sequelize.Op.like]: '%' + q + '%'//se busca al inicio y fin de la string
+            }
+        }, include: [
+            { model: Precio, as: 'precio' }
+        ]
+    })
+    res.render('propiedades/buscar', {
+        pagina: 'Resultados de la búsqueda',
+        propiedades,
+        csrfToken: req.csrfToken(),
+    }) */
+}
 export {
     admin,
     crear,
@@ -355,5 +449,8 @@ export {
     cambiarEstado,
     mostrarPropiedad,
     enviarMensajes,
-    verMensajes
+    verMensajes,
+    enVenta,
+    categoria2,
+    buscador2
 }

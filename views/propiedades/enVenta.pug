@@ -1,4 +1,4 @@
-extends ./layout/app
+extends ../layout/admin
 block styles
     link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
     style.
@@ -13,6 +13,7 @@ block styles
         .leaflet-control-zoom-out:hover {
             background-color: #f4f4f4 ;
         }
+    meta(name="csrf-token" content= csrfToken)
 
 block contenido 
-    include ./templates/mapaInicio
+    include ../templates/mapaInicio

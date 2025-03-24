@@ -48,13 +48,16 @@ const categoria = async (req, res) => {
     res.render('categoria', {
         pagina: `${categoria.nombre}s en venta`,
         propiedades,
-        csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken(),
     });
 }
 const noEncontrado = (req, res) => {
+    const { usuario } = req
+
     res.render('404', {
         pagina: 'No encontrado',
-        csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken(),
+        usuario
     })
 }
 const buscador = async (req, res) => {

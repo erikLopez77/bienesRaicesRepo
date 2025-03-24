@@ -1,4 +1,7 @@
-extends ./layout/app
+if admin
+    include ./layout/admin
+else 
+    include ./layout/app
 
 block contenido 
     section(class="py-5")
@@ -8,5 +11,5 @@ block contenido
             div(class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-14")
                 each propiedad in propiedades 
                     include ./templates/card
-        else 
+        if !propiedades.length
             p(class="text-center text-gray-800 text-sm py-10") No hay resultados 
