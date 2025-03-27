@@ -1,13 +1,7 @@
 div(class="py-5")
     // Contenedor para el título y la barra de búsqueda
-    div(class="flex flex-col md:flex-row justify-between items-center mb-10")
-        h1(class="text-center pl-60 text-4xl font-extrabold") Todas las propiedades
-        // Barra de búsqueda (mover al lado derecho)
-        form(action="/propiedad/buscar" method="GET" class="flex gap-3 items-center")
-            label(for="q" class="text-sm uppercase font-bold text-white") Búsqueda 
-            input(type="text" id="q" name="q" placeholder="Buscar propiedades" class="p-2 rounded-lg shadow text-sm")
-            input(type="hidden" name="_csrf" value=csrfToken2) 
-            input(type="submit" class="bg-indigo-800 hover:bg-indigo-400 rounded-lg text-white uppercase font-bold p-2 cursor-pointer text-sm" value="Buscar")
+    div(class="flex flex-col sm:flex-row justify-between items-center mb-10")
+        h1(class="text-center sm:text-center text-4xl font-extrabold w-full sm:w-auto") Todas las propiedades 
 
     // Filtros y mapa
     div(class="flex flex-col md:flex-row items-center py-10 gap-4")
