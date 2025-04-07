@@ -66,7 +66,7 @@ const buscador = async (req, res) => {
     if (!termino.trim()) {
         return res.redirect('/');//si estoy en buscaddor hay un probñema si no mando nada
     }
-    //consultar propiedades 
+    //consultar propiedades
     const propiedades = await Propiedad.findAll({
         where: {
             titulo: {
@@ -81,11 +81,14 @@ const buscador = async (req, res) => {
         propiedades,
         csrfToken: req.csrfToken()
     })
-
+}
+const pregFrec = async (req,res)=>{
+    res.render('faq');
 }
 export {
     inicio,
     categoria,
     noEncontrado,
-    buscador
+    buscador,
+    pregFrec
 }

@@ -1,0 +1,70 @@
+extends ./layout/app
+
+block contenido
+    //- Sección Hero (la misma que antes)
+    section(class="bg-cover bg-center text-white py-32 px-4 mb-12 relative min-h-[70vh] flex items-center justify-start"
+           style="background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover")
+        div(class="max-w-6xl mx-auto px-8 relative z-10")
+            div(class="max-w-2xl")
+                h2(class="text-white text-5xl md:text-6xl mb-6 font-extrabold leading-tight") Asistencia y
+                    span(class="text-red-400") Preguntas Frecuentes
+                p(class="text-xl md:text-2xl leading-relaxed mb-8 text-gray-100") Encuentra respuestas a las dudas más comunes sobre compra, venta y trámites inmobiliarios.
+
+    //- Sección FAQ
+    section(class="py-16 bg-gray-50")
+        div(class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8")
+            h2(class="text-3xl font-extrabold text-gray-900 mb-12 text-center") Preguntas Frecuentes
+
+            div(class="space-y-6")
+                //- Pregunta 1
+                div(class="bg-white shadow-lg rounded-lg overflow-hidden")
+                    button(class="w-full flex justify-between items-center p-6 focus:outline-none")
+                        span(class="text-lg font-medium text-gray-900") ¿Cómo puedo publicar una propiedad?
+                        svg(class="h-6 w-6 text-red-500 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-data="{ open: false }" :class="{ 'rotate-180': open }")
+                            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7")
+                    div(class="px-6 pb-6 pt-0 hidden")
+                        p(class="text-gray-600") Para publicar una propiedad, regístrate como vendedor en nuestra plataforma, completa el formulario con los detalles de tu propiedad y sube fotografías de calidad. Nuestro equipo verificará la información antes de publicarla.
+
+                //- Pregunta 2
+                div(class="bg-white shadow-lg rounded-lg overflow-hidden")
+                    button(class="w-full flex justify-between items-center p-6 focus:outline-none")
+                        span(class="text-lg font-medium text-gray-900") ¿Qué documentos necesito para comprar una propiedad?
+                        svg(class="h-6 w-6 text-red-500 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7")
+                    div(class="px-6 pb-6 pt-0 hidden")
+                        p(class="text-gray-600") Los documentos básicos son: identificación oficial, comprobante de ingresos, historial crediticio y en algunos casos, enganche del 10% al 20% del valor de la propiedad. Te asesoramos en todo el proceso.
+
+                //- Pregunta 3
+                div(class="bg-white shadow-lg rounded-lg overflow-hidden")
+                    button(class="w-full flex justify-between items-center p-6 focus:outline-none")
+                        span(class="text-lg font-medium text-gray-900") ¿Cuál es el costo de sus servicios?
+                        svg(class="h-6 w-6 text-red-500 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7")
+                    div(class="px-6 pb-6 pt-0 hidden")
+                        p(class="text-gray-600") Para vendedores, cobramos una comisión del 5% sobre el valor de venta. Los compradores no pagan comisiones. Todos nuestros costos son transparentes y se acuerdan por escrito desde el inicio.
+
+                //- Pregunta 4
+                div(class="bg-white shadow-lg rounded-lg overflow-hidden")
+                    button(class="w-full flex justify-between items-center p-6 focus:outline-none")
+                        span(class="text-lg font-medium text-gray-900") ¿Cómo verifican la autenticidad de las propiedades?
+                        svg(class="h-6 w-6 text-red-500 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7")
+                    div(class="px-6 pb-6 pt-0 hidden")
+                        p(class="text-gray-600") Nuestro equipo verifica escrituras, registros públicos y documentación legal antes de publicar cualquier propiedad. Además, realizamos visitas físicas para confirmar los detalles.
+
+            //- CTA Final
+            div(class="mt-16 text-center")
+                h3(class="text-2xl font-bold text-gray-900 mb-4") ¿No encontraste tu respuesta?
+                p(class="text-lg text-gray-600 mb-6") Nuestros asesores están listos para ayudarte
+                a(href="/contacto" class="inline-block bg-red-600 hover:bg-red-700 text-white py-3 px-8 rounded-lg text-lg font-semibold transition-colors duration-300") Contactar Asesor
+
+    script.
+        document.querySelectorAll('button[class*="flex justify-between"]').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('svg');
+
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });

@@ -1,5 +1,5 @@
 import express from 'express';
-import { inicio, categoria, noEncontrado, buscador } from '../controllers/appController.js';
+import { inicio, categoria, noEncontrado, buscador, pregFrec } from '../controllers/appController.js';
 import identificarUsuario from '../middleware/identificarUsuario.js'
 const router = express.Router();
 
@@ -11,4 +11,6 @@ router.get('/categorias/:id', categoria)
 router.get('/404', identificarUsuario, noEncontrado);
 //buscador
 router.post('/buscador', buscador);
+
+router.get("/FAQ's", pregFrec);
 export default router;

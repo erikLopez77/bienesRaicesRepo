@@ -1,21 +1,21 @@
-div(class="py-5")
+div(class="py-5" id="mapa")
     // Contenedor para el título y la barra de búsqueda
     div(class="flex flex-col sm:flex-row justify-between items-center mb-10")
-        h1(class="text-center sm:text-center text-4xl font-extrabold w-full sm:w-auto") Todas las propiedades 
+        h1(class="text-center sm:text-center text-4xl font-extrabold w-full sm:w-auto") Todas las propiedades
 
     // Filtros y mapa
     div(class="flex flex-col md:flex-row items-center py-10 gap-4")
-        h2(class="text-sm uppercase text-gray-800 font-bold") Filtrar propiedades: 
+        h2(class="text-sm uppercase text-gray-800 font-bold") Filtrar propiedades:
         div(class="w-full md:w-auto flex items-center gap-2")
             label(for="categorias" class="text-sm w-24 uppercase text-gray-500 font-bold") Categorias
-            select(id="categorias" class="flex-1 bg-white w-full px-3 py-2 border border-gray-300 rounded-md shadow") 
+            select(id="categorias" class="flex-1 bg-white w-full px-3 py-2 border border-gray-300 rounded-md shadow")
                 option(value="") - Seleccione -
                 each categoria in categorias
-                    option(value=categoria.id)= categoria.nombre 
+                    option(value=categoria.id)= categoria.nombre
 
         div(class="w-full md:w-auto flex items-center gap-2")
             label(for="precios" class="text-sm w-24 uppercase text-gray-500 font-bold") Precios
-            select(id="precios" class="flex-1 bg-white w-full px-3 py-2 border border-gray-300 rounded-md shadow") 
+            select(id="precios" class="flex-1 bg-white w-full px-3 py-2 border border-gray-300 rounded-md shadow")
                 option(value="") - Seleccione -
                 each precio in precios
                     option(value=precio.id)= precio.nombre
@@ -28,7 +28,7 @@ div(class="py-5")
             p(class="text-center text-2xl font-normal pt-10") No hay casas por el momento
 
         div(class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-14")
-            each propiedad in casas 
+            each propiedad in casas
                 include ./card
 
     // Sección de departamentos
@@ -38,7 +38,7 @@ div(class="py-5")
             p(class="text-center text-2xl font-normal pt-10") No hay departamentos por el momento
 
         div(class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-14")
-            each propiedad in departamentos 
+            each propiedad in departamentos
                 include ./card
 
 block scripts
