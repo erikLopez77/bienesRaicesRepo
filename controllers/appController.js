@@ -83,7 +83,7 @@ const buscador = async (req, res) => {
     })
 }
 const pregFrec = async (req,res)=>{
-    res.render('faq');
+    res.render('faq',{pagina:"FAQ's"});
 }
 export {
     inicio,

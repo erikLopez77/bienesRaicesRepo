@@ -50,7 +50,7 @@ router.put('/propiedades/:id',
     cambiarEstado);
 //area publica
 router.get('/propiedad/:id', identificarUsuario, mostrarPropiedad);
-//almacenar mensajes 
+//almacenar mensajes
 router.post('/propiedad/:id',
     identificarUsuario,
     body('mensaje').isLength({ min: 10 }).withMessage('El mensaje no puede ir vacío o es muy corto'),
