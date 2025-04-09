@@ -28,7 +28,9 @@ const emailRegistro = async (datos) => {
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="background-color: #f8f9fa; padding: 30px; border-radius: 8px;">
                 <div style="text-align: center; margin-bottom: 25px;">
-                    <h1 style="color: #2d3748; font-size: 24px; font-weight: bold;">BienesRaices.com</h1>
+                    <h2 style="font-size: 2.25rem; margin: 2.5rem 0; font-weight: 800; text-align: center;  color: #1a202c;">
+                        Bienes<span style="font-weight: 400;">Raices</span> 
+                    </h2>
                 </div>
 
                 <div style="background-color: white; padding: 25px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
@@ -86,7 +88,9 @@ const emailOlvidemiPassword = async (datos) => {
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="background-color: #f8f9fa; padding: 30px; border-radius: 8px;">
                 <div style="text-align: center; margin-bottom: 25px;">
-                    <h1 style="color: #2d3748; font-size: 24px; font-weight: bold;">BienesRaices.com</h1>
+                    <h2 style="font-size: 2.25rem; margin: 2.5rem 0; font-weight: 800; text-align: center;  color: #1a202c;">
+                        Bienes<span style="font-weight: 400;">Raices</span> 
+                    </h2>
                 </div>
 
                 <div style="background-color: white; padding: 25px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">

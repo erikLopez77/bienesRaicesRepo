@@ -13,7 +13,7 @@ const admin = async (req, res) => {
     }
     try {
         const { id } = req.usuario;
-        const limit = 10;
+        const limit = 5;
         const offset = ((paginaActual * limit) - limit)//no. de propiedades a saltar antes de mostrar 
 
         const [propiedades, total] = await Promise.all([
