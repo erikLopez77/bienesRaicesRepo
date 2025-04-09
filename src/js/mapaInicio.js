@@ -28,7 +28,10 @@
     })
     const obtenerPropiedades = async () => {
         try {
-            const url = '/api/propiedades';
+            const idInput = document.querySelector("#idPer");
+            const id = idInput ? idInput.value : null;
+
+            const url = id ? `/api/propiedades?id=${id}` : '/api/propiedades';
             const respuesta = await fetch(url);
             propiedades = await respuesta.json();
             mostrarPropiedades(propiedades);

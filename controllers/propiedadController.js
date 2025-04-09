@@ -379,6 +379,7 @@ const enVenta = async (req, res) => {
     ])
     res.render('propiedades/enVenta', {
         pagina: 'Propiedades en venta',
+        id: usuario.id,
         categorias,
         precios,
         casas,
