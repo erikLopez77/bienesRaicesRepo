@@ -7,7 +7,8 @@ const inicio = async (req, res) => {
         Propiedad.findAll({
             limit: 3,
             where: {
-                categoriaId: 1
+                categoriaId: 1,
+                publicado: true
             }, include: [
                 { model: Precio, as: 'precio' }
             ], order: [['createdAt', 'DESC']]
@@ -15,7 +16,8 @@ const inicio = async (req, res) => {
         Propiedad.findAll({
             limit: 3,
             where: {
-                categoriaId: 2
+                categoriaId: 2,
+                publicado: true
             }, include: [
                 { model: Precio, as: 'precio' }
             ], order: [['createdAt', 'DESC']]
@@ -82,8 +84,8 @@ const buscador = async (req, res) => {
         csrfToken: req.csrfToken()
     })
 }
-const pregFrec = async (req,res)=>{
-    res.render('faq',{pagina:"FAQ's"});
+const pregFrec = async (req, res) => {
+    res.render('faq', { pagina: "FAQ's" });
 }
 export {
     inicio,

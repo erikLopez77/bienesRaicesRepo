@@ -360,6 +360,7 @@ const enVenta = async (req, res) => {
             limit: 3,
             where: {
                 usuarioId: { [Op.ne]: usuario.id }, // Excluye las propiedades del usuario actual
+                publicado: true,
                 categoriaId: 1
             }, include: [
                 { model: Precio, as: 'precio' }
@@ -369,7 +370,8 @@ const enVenta = async (req, res) => {
             limit: 3,
             where: {
                 usuarioId: { [Op.ne]: usuario.id }, // Excluye las propiedades del usuario actual
-                categoriaId: 2
+                categoriaId: 2,
+                publicado: true
             }, include: [
                 { model: Precio, as: 'precio' }
             ], order: [['createdAt', 'DESC']]
@@ -400,7 +402,8 @@ const categoria2 = async (req, res) => {
     const propiedades = await Propiedad.findAll({
         where: {
             categoriaId: id,
-            usuarioId: { [Op.ne]: usuario.id } // Excluye las propiedades del usuario actual
+            usuarioId: { [Op.ne]: usuario.id }, // Excluye las propiedades del usuario actual
+            publicado: true
         },
         include: [
             { model: Precio, as: 'precio' }
